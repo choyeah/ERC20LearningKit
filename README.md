@@ -1,3 +1,7 @@
+# ERC20
+
+## ERC20 Interface
+
 1. Info
    erc 20 explain
    https://ethereum.org/en/developers/docs/standards/tokens/erc-20/
@@ -41,6 +45,8 @@
    node scripts/bigNumber.js
    ```
 
+## Truffle
+
 4. 테스트 진행
 
    Start local network (로컬 네트워크 실행)
@@ -78,19 +84,19 @@
    npm i dotenv --save
    ```
 
-   https://github.com/trufflesuite/truffle-hdwallet-provider
-   truffle hdwallet provider 설정
+   > https://github.com/trufflesuite/truffle-hdwallet-provider
+   > truffle hdwallet provider 설정
 
-   테스트 이더 받기
-
-   ```
-   https://goerlifaucet.com/
-   ```
-
-   goerli에 배포 진행
+   이더 테스트넷 정보 (faucet, rpc, exploer)
 
    ```
-   truffle migrate --network goerli
+   https://github.com/eth-clients/holesky
+   ```
+
+   holesky test net 배포 진행
+
+   ```
+   truffle migrate --network holesky
    ```
 
    set env file (.env 파일 생성 및 설정)
@@ -103,7 +109,8 @@
    PRIVATE_KEY=''//ganache 에서 개인키 가져오기
    TEST_PRIVATE_KEY=''//ganache 에서 개인키 가져오기
    ERC20='' // 배포된 ERC20 주소 넣기
-   RPC_URL='https://ethereum-goerli-rpc.allthatnode.com' //endpoint 정해서 넣어주기
+   RPC_URL='HTTP://127.0.0.1:8545'
+   RPC_URL_HOLESKY='https://rpc.holesky.ethpandaops.io'
    ```
 
 6. 이더리움 공식 테스트넷 사용해보기 (스크립트 실행)
@@ -132,7 +139,7 @@
    node scripts/events.js
    ```
 
-# hardhat
+## hardhat
 
 .env 파일 예시
 
@@ -165,12 +172,7 @@ npx hardhat run scripts/bigNumber.ts
 
 ```
 npx hardhat run scripts/deploy.ts
-```
-
-goerli에 배포
-
-```
-npx hardhat run scripts/deploy.ts --network goerli
+npx hardhat run scripts/deploy.ts --network holesky //holesky에 배포시
 ```
 
 3. 컨트렉트 테스트
@@ -181,36 +183,25 @@ npx hardhat test
 
 4. 함수실행
 
-로컬에서 테스트 시
-
 ```
-npx hardhat run scripts/getBalance.ts
+npx hardhat run scripts/getBalance.ts //로컬에서 테스트 시
+npx hardhat run scripts/getBalance.ts --network holesky //holesky에서 테스트 시
 ```
-
-goerli에서 테스트 시
-
-```
-npx hardhat run scripts/getBalance.ts --network goerli
-```
-
-로컬에서 테스트 시
 
 ```
 npx hardhat run scripts/mint.ts
 npx hardhat run scripts/transfer.ts
+// holesky에서 테스트 시
+npx hardhat run scripts/mint.ts --network holesky
+npx hardhat run scripts/transfer.ts --network holesky
 ```
 
-goerli에서 테스트 시
-
-```
-npx hardhat run scripts/mint.ts --network goerli
-npx hardhat run scripts/transfer.ts --network goerli
-```
+## Event
 
 1. 이벤트 조회
 
-event.ts에서 fromBlock을 최신 블록으로 바꿔주기
-(무료로 제공하는 rpc url에서는 최신 블록데이터를 많이 들고 있지 않는 경우가 있어서 응답값이 없을 수도 있습니다)
+> event.ts에서 fromBlock을 최신 블록으로 바꿔주기
+> (무료로 제공하는 rpc url에서는 최신 블록데이터를 많이 들고 있지 않는 경우가 있어서 응답값이 없을 수도 있습니다)
 
 ```
   const filter = {
@@ -221,20 +212,17 @@ event.ts에서 fromBlock을 최신 블록으로 바꿔주기
   };
 ```
 
-로컬에서 테스트 시
-
 ```
+// 로컬에서 테스트 시
 npx hardhat run scripts/event.ts
+
+// holesky에서 테스트 시
+npx hardhat run scripts/event.ts --network holesky
 ```
 
-goerli에서 테스트 시
+## Deploy Contract
 
-```
-npx hardhat run scripts/event.ts --network goerli
-```
-
-1. 다중체인 배포
-   faucet 받기
+faucet 받기
 
 ```
 https://www.allthatnode.com/faucet/polygon.dsrv //폴리곤
@@ -245,9 +233,7 @@ https://www.allthatnode.com/faucet/klaytn.dsrv //클레이튼
 endpoint 가져오기
 
 ```
-https://www.allthatnode.com/polygon.dsrv //폴리곤
-https://bsc-testnet-rpc.allthatnode.com //바이낸스
-https://www.allthatnode.com/klaytn.dsrv //클레이튼
+https://chainlist.org/
 ```
 
 scan에서 확인하기
@@ -266,7 +252,9 @@ npx hardhat run scripts/deploy.ts --network bsc
 npx hardhat run scripts/deploy.ts --network klaytn
 ```
 
-7. flat 파일 생성 후 verify
+## Contract Verify
+
+flat 파일 생성 후 verify
 
 waffle 설치
 
@@ -277,11 +265,11 @@ npm install --save-dev ethereum-waffle
 flat 파일 생성
 
 ```
-npx waffle flatten
+npx waffle flatten  (차이 매쳐스 사용)
 ```
 
 이더스캔에서 verify and publish 누르기
 
 ```
-https://goerli.etherscan.io/token/0x44b375b024518b424da3edaa9c5d493ec900d62d#code
+https://holesky.etherscan.io/address/0x84Acd6a549cB8fb5D4A8257444D0279811BCdB20#code
 ```

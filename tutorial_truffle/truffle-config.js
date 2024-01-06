@@ -17,15 +17,13 @@
  * phrase from a file you've .gitignored so it doesn't accidentally become public.
  *
  */
-require('dotenv').config();
+require("dotenv").config();
 // const mnemonic = process.env["MNEMONIC"];
 // const infuraProjectId = process.env["INFURA_PROJECT_ID"];
- 
-const HDWalletProvider = require('@truffle/hdwallet-provider');
 
-const privateKeys = [
-  process.env.PRIVATE_KEY
-];
+const HDWalletProvider = require("@truffle/hdwallet-provider");
+
+const privateKeys = [process.env.PRIVATE_KEY];
 module.exports = {
   /**
    * Networks define how you connect to your ethereum client and let you set the
@@ -39,30 +37,33 @@ module.exports = {
 
   networks: {
     development: {
-        host: "127.0.0.1",     // Localhost (default: none)
-        port: 9545,            // Standard Ethereum port (default: none)
-        network_id: "*",       // Any network (default: none)
-      },
-      ganache: {
-        host: "127.0.0.1",
-        port: 7545,
-        network_id: "*"
-      },
-      goerli: {
-        provider: () =>
-          new HDWalletProvider(process.env.PRIVATE_KEY, process.env.RPC_URL),
-        network_id: '5',
-      },
+      host: "127.0.0.1", // Localhost (default: none)
+      port: 9545, // Standard Ethereum port (default: none)
+      network_id: "*", // Any network (default: none)
     },
-    // Set default mocha options here, use special reporters etc.
-    mocha: {
-      // timeout: 100000
+    ganache: {
+      host: "127.0.0.1",
+      port: 8545,
+      network_id: "*",
     },
+    holesky: {
+      provider: () =>
+        new HDWalletProvider(
+          process.env.PRIVATE_KEY,
+          process.env.RPC_URL_HOLESKY
+        ),
+      network_id: "17000",
+    },
+  },
+  // Set default mocha options here, use special reporters etc.
+  mocha: {
+    // timeout: 100000
+  },
 
-    // Configure your compilers
-    compilers: {
-      solc: {
-        version: "0.8.13",      // Fetch exact version from solc-bin
-      },
-    }
+  // Configure your compilers
+  compilers: {
+    solc: {
+      version: "0.8.13", // Fetch exact version from solc-bin
+    },
+  },
 };
